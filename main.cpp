@@ -12,7 +12,7 @@ enum class class_type {
     cleric,
     druid,
     fighter,
-    monk, 
+    monk, //
     paladin,
     ranger, 
     rogue,  
@@ -32,10 +32,32 @@ struct stats {
  
 
 struct player: public stats {
-    //not sure if I can or should call the other objects like this or if I shoukd/need to inherit them into the player class
-    //also idk if I can because I would need to do multiple inherits.
-    class_type class_type;
-    stats player_stats;
+    
+    class_type player_c;
+
+    player() {
+        player_c = class_type::barbarian;
+        strength = 0;
+        dexterity = 0;
+        constitution = 0;
+        intelligence = 0;
+        wisdom = 0;
+        charisma = 0;
+
+    }
+    player(class_type type, int s, int d, int c, int i, int w, int ch) { 
+
+        player_c = type;
+        strength = s;
+        dexterity = d;
+        constitution = c;
+        intelligence = i;
+        wisdom = w;
+        charisma = ch;
+
+    }
+
+
 };
 
 //The reason I decided to make user type int to choose class instead of 
@@ -112,44 +134,63 @@ void game_start () {
             
         }
     }
+    
+    class_type player_class; //calling enum, when I make my player class call I will use this as first param
+    
+
     switch (class_choice) {
         case 1: 
             std::cout << "You choose the Barbarian class";
+            player_class = class_type::barbarian; 
             break;
         case 2:            
             std::cout << "You choose the Bard class";
+            player_class = class_type::bard;
             break;
         case 3: 
             std::cout << "You choose the Cleric class";
+            player_class = class_type::cleric;
             break;
         case 4: 
             std::cout << "You choose the Druid class";
+            player_class = class_type::druid;
             break;
         case 5: 
             std::cout << "You choose the Fighter class";
+            player_class = class_type::fighter;
             break;
         case 6: 
             std::cout << "You choose the Monk class";
+            player_class = class_type::monk;
             break;
         case 7: 
             std::cout << "You choose the Paladin class";
+            player_class = class_type::paladin;
             break;
         case 8: 
             std::cout << "You choose the Ranger class";
+            player_class = class_type::ranger;
             break;
         case 9: 
             std::cout << "You choose the Rogue class";
+            player_class = class_type::rogue;
             break;
         case 10: 
             std::cout << "You choose the Sorcerer class";
+            player_class = class_type::sorcerer;
             break;
         case 11: 
             std::cout << "You choose the Warlock class";
+            player_class = class_type::warlock;
             break;
         case 12:
             std::cout << "You choose the Wizard class";
+            player_class = class_type::wizard;
             break;
     }
+
+
+
 
    //next step, add more diaolage about having player
    //walk over and put their hand on a cystal ball then allow them to assign stat points
