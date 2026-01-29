@@ -44,6 +44,7 @@ struct stats {
     int wisdom;
     int charisma;
 };
+
  
 
 struct player: public stats {
@@ -82,34 +83,84 @@ struct player: public stats {
 // string style is because its harder to control string cin insertions lol
 //also in the future I want to turn this into a program that executes and 
 //displays pretty text and allows user to click instead of having to type everything.
+
+std::array<std::string, 6> arr_stats {
+    "Strength\n",
+    "Dexterity\n",
+    "Constitution\n",
+    "Intelligence\n",
+    "Wisdom\n",
+    "Charisma\n"
+};
+
+void stat_menu() {
+    std::cout << 
+        "1:  Strength\n"
+        "2:  Dexterity\n"
+        "3:  Constitution\n"
+        "4:  Intelligence\n"
+        "5:  Wisdom\n"
+        "6:  Charisma\n";
+}
+
+
+std::array<std::string, 10> arr_races {
+    "Aasimar",
+    "Dragonorn",
+    "Dwarf",
+    "Elf",
+    "Gnome",
+    "Goliath",
+    "Halfing",
+    "Human",
+    "Orc",
+    "Tiefling"
+
+
+};
+
 void race_menu() {
     std::cout << 
-                    "1:  Aasimar\n"
-                    "2:  Dragonorn\n"
-                    "3:  Dwarf\n"
-                    "4:  Elf\n"
-                    "5:  Gnome\n"
-                    "6:  Goliath\n"
-                    "7:  Halfing\n"
-                    "8:  Human\n"
-                    "9:  Orc\n"
-                    "10: Tiefling\n";
+        "1:  Aasimar\n"
+        "2:  Dragonorn\n"
+        "3:  Dwarf\n"
+        "4:  Elf\n"
+        "5:  Gnome\n"
+        "6:  Goliath\n"
+        "7:  Halfing\n"
+        "8:  Human\n"
+        "9:  Orc\n"
+        "10: Tiefling\n";
                 }
 
+std::array<std::string, 12> arr_classes{
+    "Barbarian",
+    "Bard",
+    "Cleric",
+    "Druid",
+    "Fighter",
+    "Monk",
+    "Paladin",
+    "Ranger",
+    "Rogue",
+    "Sorcerer",
+    "Warlock",
+    "Wizard"   
+};
 void class_menu() {
     std::cout << 
-                    "1:  Barbarian\n"
-                    "2:  Bard\n"
-                    "3:  Cleric\n"
-                    "4:  Druid\n"
-                    "5:  Fighter\n"
-                    "6:  Monk\n"
-                    "7:  Paladin\n"
-                    "8:  Ranger\n"
-                    "9:  Rogue\n"
-                    "10: Sorcerer\n"
-                    "11: Warlock\n"
-                    "12: Wizard\n";         
+        "1:  Barbarian\n"
+        "2:  Bard\n"
+        "3:  Cleric\n"
+        "4:  Druid\n"
+        "5:  Fighter\n"
+        "6:  Monk\n"
+        "7:  Paladin\n"
+        "8:  Ranger\n"
+        "9:  Rogue\n"
+        "10: Sorcerer\n"
+        "11: Warlock\n"
+        "12: Wizard\n";         
                 }
 
 
@@ -125,15 +176,16 @@ void speak(const std::string& speaker, const std::string& text) {
 
 
 
-int infoInput (std::string classOrRace, std::function<void()> printSelection ) { //replace class stuff into a single func to use for both class n race
+int infoInput (std::string classOrRace, std::function<void()> printSelection, int max ) { //replace class stuff into a single func to use for both class n race
     int choice{-1};
     while (true) {
         std::cout << "Select a " << classOrRace << " by typing in the coresponding number\n";
         printSelection();
        
         std::cin >> choice;
+        
 
-        if(choice >=1 && choice <=12) {
+        if(choice >=1 && choice <=max) {
             std::cout << "Do you confirm " << choice << " is your " + classOrRace + " of choice?\n";
             char confirm_choice;
             std::cout << "Please Select (Y/N): "; //wording could be better may confuse user.
@@ -142,7 +194,7 @@ int infoInput (std::string classOrRace, std::function<void()> printSelection ) {
                 continue; //continue here to send user back to select to reselct class
             
         }
-        else if (choice <=0 || choice >=13) {
+        else if (choice <=0 || choice >max) {
             std::cout << "Invalid Choice, please select again\n\n";
             
         }
@@ -167,93 +219,20 @@ void game_start () {
     speak("Guild Clerk", "Nice to meet you " + player_name + "!"); //using concatination within the function call, pretty cool lol
     speak("Guild Clerk", "What is your class " + player_name + "? \n");
     
-    // int class_choice{-1};
-    // while (true) {
-    //     std::cout << "Select a class by typing in the coresponding number\n";
-    //     class_menu();
-       
-    //     std::cin >> class_choice;
+    int class_choice = infoInput("class", class_menu, 12);
 
-    //     if(class_choice >=1 && class_choice <=12) {
-    //         std::cout << "Do you confirm " << class_choice << " is your class of choice?\n";
-    //         char choice;
-    //         std::cout << "Please Select (Y/N): "; //wording could be better may confuse user.
-    //         std::cin >> choice;
-    //             if(choice == 'y' || choice == 'Y') { break;}
-    //             continue; //continue here to send user back to select to reselct class
-            
-    //     }
-    //     else if (class_choice <=0 || class_choice >=13) {
-    //         std::cout << "Invalid Choice, please select again\n\n";
-            
-    //     }
-    // }
-
-    int class_choice = infoInput("class", class_menu);
-
-    
-    class_type player_class; //calling enum, when I make my player class call I will use this as first param
-    
-
-    switch (class_choice) {
-        case 1: 
-            std::cout << "You choose the Barbarian class\n\n";
-            player_class = class_type::barbarian; 
-            break;
-        case 2:            
-            std::cout << "You choose the Bard class\n\n";
-            player_class = class_type::bard;
-            break;
-        case 3: 
-            std::cout << "You choose the Cleric class\n\n";
-            player_class = class_type::cleric;
-            break;
-        case 4: 
-            std::cout << "You choose the Druid class\n\n";
-            player_class = class_type::druid;
-            break;
-        case 5: 
-            std::cout << "You choose the Fighter class\n\n";
-            player_class = class_type::fighter;
-            break;
-        case 6: 
-            std::cout << "You choose the Monk class\n\n";
-            player_class = class_type::monk;
-            break;
-        case 7: 
-            std::cout << "You choose the Paladin class\n\n";
-            player_class = class_type::paladin;
-            break;
-        case 8: 
-            std::cout << "You choose the Ranger class\n\n";
-            player_class = class_type::ranger;
-            break;
-        case 9: 
-            std::cout << "You choose the Rogue class\n\n";
-            player_class = class_type::rogue;
-            break;
-        case 10: 
-            std::cout << "You choose the Sorcerer class\n\n";
-            player_class = class_type::sorcerer;
-            break;
-        case 11: 
-            std::cout << "You choose the Warlock class\n\n";
-            player_class = class_type::warlock;
-            break;
-        case 12:
-            std::cout << "You choose the Wizard class\n\n";
-            player_class = class_type::wizard;
-            break;
-    }
+    class_type player_class = static_cast<class_type>(class_choice);
+    std::string class_choice_string = arr_classes.at(class_choice - 1); // doing - 1 because user input is 1 based while my arrays are 0 based
+    std::cout << "\nYou choose the " << class_choice_string << " class!\n" << std::endl; //flushing cuz cout not connected to anything and important user sees this 
 
 
     speak("Guild Clerk", "What race are you " + player_name + "? \n");
-
+    int race_choice = infoInput("race", race_menu, 10);
+    race_type player_race = static_cast<race_type>(race_choice);
+    std::string race_choice_string = arr_races.at(race_choice - 1); // doing - 1 because user input is 1 based while my arrays are 0 based
+    std::cout << "\nYou choose the " << race_choice_string << " race!\n" << std::endl; //flushing cuz cout not connected to anything and important user sees this 
     
-
-
-
-
+    
 
 
 
@@ -262,14 +241,52 @@ void game_start () {
 
    narrate("Infront of you shines a crystal ball, after placing your hand on the ball it begins to glow a deep purple");
    narrate("You can feel the energy coursing through your body, through your arm into the crystal ball");
-   narrate("Smoke begins to accumalte around the ball, then out of the smoke a mysterous figure appears\n");
+   narrate("Smoke begins to accumulate around the ball, then out of the smoke a mysterous figure appears\n");
 
    speak("???", "how do you wish to choose your stats...");
 
-   //add some sort of function or something to let player assing stats using DnD style point assingment
+   std::array<int,6> stat_points { 15, 14, 13, 12, 10, 8};
+   std::array<int, 6> stat_builder {0, 0, 0, 0, 0, 0};
+    //so a loop that runs through this vector, but also checks if the stat is greater then 0 meaning it already has stats applied to it
+    //also checks if choosen int is within range given in menu
+    //inside loop makes user choose again if they choose a invalid menu choice or repeated one
+ 
+    for (int i = 0; i < stat_points.size(); i++) {
+        bool valid_choice = false;
+        while (!valid_choice) {
+            std::cout <<"What stat would you like to assign " << stat_points.at(i) << " points to?" << std::endl;
+            stat_menu();
+            int choosen_stat;
+            std::cin >> choosen_stat;
+        
+            if (choosen_stat > 6 || choosen_stat <= 0) { 
+                std::cout << "Invalid choice, please choose a number 1-6\n";
+                
+                
+            }
+            else if (stat_builder.at(choosen_stat-1) != 0) {
+                std::cout << "Already assigned a stat to this\n";
+            }
+            else {
+                stat_builder.at(choosen_stat-1) = stat_points.at(i);
+                valid_choice = true;
+         }
 
-   //to do next is that I forgot to add race, so I gotta go back and copy what I do for classes and let the user pick there race 
-   //as each race has different begginign stats so gotta make sure those are ready before regular stat selection. 
+        }
+
+    }
+    player current_player ( //player object call adding all the stuff taken from user input
+        player_class, 
+        player_race, 
+        stat_builder[0], 
+        stat_builder[1], 
+        stat_builder[2], 
+        stat_builder[3], 
+        stat_builder[4], 
+        stat_builder[5]
+    );
+
+
 
 
 
