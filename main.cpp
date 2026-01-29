@@ -47,14 +47,16 @@ struct stats {
 
  
 
-struct player: public stats {
+struct character: public stats {
     
-    class_type player_c;
-    race_type player_r;
+    std::string name;
+    class_type character_c;
+    race_type character_r;
 
-    player() {
-        player_r = race_type::human;
-        player_c = class_type::barbarian;
+    character() {
+        name = "Unnamed";
+        character_r = race_type::human;
+        character_c = class_type::barbarian;
         strength = 0;
         dexterity = 0;
         constitution = 0;
@@ -63,10 +65,10 @@ struct player: public stats {
         charisma = 0;
 
     }
-    player(class_type typec, race_type typer, int s, int d, int c, int i, int w, int ch) { 
-
-        player_c = typec;
-        player_r = typer;
+    character(std::string n, class_type typec, race_type typer, int s, int d, int c, int i, int w, int ch) { 
+        name = n;
+        character_c = typec;
+        character_r = typer;
         strength = s;
         dexterity = d;
         constitution = c;
@@ -275,7 +277,8 @@ void game_start () {
         }
 
     }
-    player current_player ( //player object call adding all the stuff taken from user input
+    character current_player ( //player object call adding all the stuff taken from user input
+        player_name,
         player_class, 
         player_race, 
         stat_builder[0], 
@@ -285,13 +288,6 @@ void game_start () {
         stat_builder[4], 
         stat_builder[5]
     );
-
-
-
-
-
-
-
 
 
 
