@@ -289,7 +289,13 @@ void game_start () {
         stat_builder[5]
     );
 
+ // now idk where to take this as I dont know Dnd Well
+ //But im thinking possibly making it a turn based story game, so either I now offer the player a quest or maybe a choice of a couple
+ //Quests, if I do the choice one the player cna come back and do the other unchoosen ones or if I do the forced quest the player gotta finish
+ //the first one.
 
+ //Also for the turn based fighting im thinking maybe giving each class a different move set by adding functions to each one 
+ //Also I want to implement stat boosts depending on the race as rn races are kinda just a title.
 
 
 }

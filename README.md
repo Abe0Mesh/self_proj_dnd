@@ -1,7 +1,11 @@
 # self_proj_dnd
 
-Just a personal project just to mess around with C++ and get better lol, time flies when I work on this!
+This repository contains the original prototype implementation of my rpg game project
+Development have moved to Tobour repositoy
 
+
+
+Just a personal project just to mess around with C++ and get better lol
 
 
 Current Plan/Goals: 
